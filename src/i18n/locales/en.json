@@ -1,0 +1,19 @@
+{
+  "auth": {
+    "loginTitle": "Logowanie",
+    "registerTitle": "Rejestracja konta",
+    "userName": "Nazwa użytkownika",
+    "email": "Email",
+    "password": "Hasło",
+    "confirmPassword": "Potwierdź hasło",
+    "rememberMe": "Zapamiętaj mnie",
+    "loginBtn": "Zaloguj się",
+    "registerBtn": "Zarejestruj się"
+  },
+  "nav": {
+    "home": "Strona Główna",
+    "login": "Logowanie",
+    "register": "Rejestracja",
+    "logout": "Wyloguj"
+  }
+}

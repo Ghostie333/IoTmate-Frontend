@@ -1,3 +1,5 @@
+import type { LoginUserDto } from "../types/LoginUserDto";
+
 const API_BASE_URL = 'http://localhost:7070/api'; // Backend address
 
 // Interfejs opisujący strukturę danych logowania/rejestracji
@@ -16,12 +18,12 @@ export const registerUser = async (credentials: AuthRequest): Promise<Response> 
   return response;
 };
 
-export const loginUser = async (credentials: AuthRequest): Promise<Response> => {
+export const loginUser = async (data: LoginUserDto): Promise<Response> => {
   const response = await fetch(`${API_BASE_URL}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    credentials: 'include', // Przesyłanie ciasteczek sesyjnych .NET Identity
-    body: JSON.stringify(credentials),
+    credentials: 'include', // Send .NET Identity cookies
+    body: JSON.stringify(data),
   });
 
   return response;
