@@ -1,6 +1,6 @@
 import type { LoginUserDto } from "../types/LoginUserDto";
-
-const API_BASE_URL = 'http://localhost:7070/api'; // Backend address
+import { API_BASE_URL } from "../main"
+// const API_BASE_URL = 'http://localhost:7070/api'; // Backend address
 
 // Interfejs opisujący strukturę danych logowania/rejestracji
 export interface AuthRequest {
