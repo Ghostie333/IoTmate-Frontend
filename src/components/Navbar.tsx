@@ -1,41 +1,46 @@
-import { Link } from "react-router-dom";
-import { logoutUser } from "../api/authApi";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { logoutUser } from "../api/authApi";
 
 export default function Navbar() {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
 
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
+  const handleLogout = async () => {
+    await logoutUser();
+    navigate("/");
   };
 
+  const linkClass =
+    "hover:text-white transition font-medium";
+
   return (
-    <nav className="bg-slate-800 border-b border-slate-700 text-slate-300 p-4 flex justify-between items-center">
-      <div className="flex gap-4 items-center">
-        <Link to="/" className="hover:text-white transition font-medium">
+    <nav className="flex items-center justify-between border-b border-slate-700 bg-slate-800 p-4 text-slate-300">
+      <div className="flex items-center gap-4">
+        <Link to="/" className={linkClass}>
           {t("nav.home")}
         </Link>
-        <Link to="/login" className="hover:text-white transition font-medium">
+        <Link to="/rooms" className={linkClass}>
+          {t("nav.rooms")}
+        </Link>
+        <Link to="/login" className={linkClass}>
           {t("nav.login")}
         </Link>
-        <Link
-          to="/register"
-          className="hover:text-white transition font-medium"
-        >
+        <Link to="/register" className={linkClass}>
           {t("nav.register")}
         </Link>
         <button
-          onClick={logoutUser}
-          className="hover:text-red-400 transition cursor-pointer"
+          onClick={handleLogout}
+          className="cursor-pointer transition hover:text-red-400"
         >
           {t("nav.logout")}
         </button>
       </div>
 
-      {/* Przełącznik języków PL / EN */}
+      {/* Language switch */}
       <div className="flex gap-2 text-xs font-bold">
         <button
-          onClick={() => changeLanguage("pl")}
+          onClick={() => i18n.changeLanguage("pl")}
           className={`px-2.5 py-1 rounded transition ${
             i18n.language === "pl"
               ? "bg-blue-600 text-white"
@@ -45,7 +50,7 @@ export default function Navbar() {
           PL
         </button>
         <button
-          onClick={() => changeLanguage("en")}
+          onClick={() => i18n.changeLanguage("en")}
           className={`px-2.5 py-1 rounded transition ${
             i18n.language === "en"
               ? "bg-blue-600 text-white"

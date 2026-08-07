@@ -1,37 +1,44 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { registerUser } from "../api/authApi";
 import type { RegisterUserDto } from "../types/RegisterUserDto";
-import { useTranslation } from "react-i18next";
 
 export default function RegisterPage() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<RegisterUserDto>({
     userName: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Rejestrowanie dla:", formData);
-    const response = await registerUser(formData);
+    setError(null);
 
-    if (response.ok) {
-      console.log("Pomyślnie zarejestrowano", response);
+    if (formData.password !== formData.confirmPassword) {
+      setError(t("auth.passwordMismatch"));
+      return;
+    }
+
+    const result = await registerUser(formData);
+    if (result.succeeded) {
+      navigate("/login");
     } else {
-      const errorData = await response.json().catch(() => null);
-      console.log("Register error (400):", errorData || response.statusText);
+      setError(result.errors.join(" "));
     }
   };
+
+  const inputClass =
+    "w-full rounded-lg border border-slate-700 bg-slate-950/60 p-2.5 text-slate-100 placeholder-slate-500 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20";
 
   return (
     <div className="flex min-h-[calc(100vh-80px)] items-center justify-center p-4">
@@ -51,11 +58,10 @@ export default function RegisterPage() {
               value={formData.userName}
               onChange={handleChange}
               placeholder="JanKowalski"
-              className="w-full rounded-lg border border-slate-700 bg-slate-950/60 p-2.5 text-slate-100 placeholder-slate-500 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              className={inputClass}
               required
             />
           </div>
-
           <div>
             <label className="mb-1 block text-sm font-medium text-slate-300">
               {t("auth.email")}
@@ -66,11 +72,10 @@ export default function RegisterPage() {
               value={formData.email}
               onChange={handleChange}
               placeholder="twoj@email.com"
-              className="w-full rounded-lg border border-slate-700 bg-slate-950/60 p-2.5 text-slate-100 placeholder-slate-500 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              className={inputClass}
               required
             />
           </div>
-
           <div>
             <label className="mb-1 block text-sm font-medium text-slate-300">
               {t("auth.password")}
@@ -81,11 +86,10 @@ export default function RegisterPage() {
               value={formData.password}
               onChange={handleChange}
               placeholder="••••••••"
-              className="w-full rounded-lg border border-slate-700 bg-slate-950/60 p-2.5 text-slate-100 placeholder-slate-500 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              className={inputClass}
               required
             />
           </div>
-
           <div>
             <label className="mb-1 block text-sm font-medium text-slate-300">
               {t("auth.confirmPassword")}
@@ -96,10 +100,12 @@ export default function RegisterPage() {
               value={formData.confirmPassword}
               onChange={handleChange}
               placeholder="••••••••"
-              className="w-full rounded-lg border border-slate-700 bg-slate-950/60 p-2.5 text-slate-100 placeholder-slate-500 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              className={inputClass}
               required
             />
           </div>
+
+          {error && <p className="text-sm text-red-400">{error}</p>}
 
           <button
             type="submit"

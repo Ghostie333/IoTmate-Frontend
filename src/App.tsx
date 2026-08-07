@@ -7,7 +7,7 @@ import RoomsPage from "./pages/rooms/RoomsPage";
 
 function App() {
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-300">
+    <div className="min-h-screen bg-slate-900 text-slate-300 px-30 mx-auto">
       <BrowserRouter>
         <Navbar />
         <Routes>

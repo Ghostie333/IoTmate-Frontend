@@ -1,4 +1,5 @@
-import { API_BASE_URL } from "../main"
+import { http } from "./http";
+import type { CreateRoomDto } from "../types/CreateRoomDto";
 
 export interface Room {
   id: string;
@@ -7,11 +8,7 @@ export interface Room {
   createdAt: string;
 }
 
-export const GetUserRooms = async (): Promise<Response> => {
-  const response = await fetch(`${API_BASE_URL}/rooms`, {
-    method: 'GET',
-    credentials: 'include', // send .NET Identity auth cookie
-  });
+export const getUserRooms = () => http<Room[]>("/rooms");
 
-  return response;
-};
+export const createRoom = (input: CreateRoomDto) =>
+  http<Room>("/rooms/new", { method: "POST", body: JSON.stringify(input) });

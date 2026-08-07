@@ -8,12 +8,30 @@
     "confirmPassword": "Potwierdź hasło",
     "rememberMe": "Zapamiętaj mnie",
     "loginBtn": "Zaloguj się",
-    "registerBtn": "Zarejestruj się"
+    "registerBtn": "Zarejestruj się",
+    "passwordMismatch": "Hasła nie są takie same"
   },
   "nav": {
     "home": "Strona Główna",
+    "rooms": "Pokoje",
     "login": "Logowanie",
     "register": "Rejestracja",
     "logout": "Wyloguj"
+  },
+  "home": {
+    "title": "Strona Główna",
+    "welcome": "Witaj w systemie IoTmate!"
+  },
+  "rooms": {
+    "your_rooms": "Twoje pokoje",
+    "you_dont_have_rooms": "Nie masz żadnych pokoi",
+    "create_room": "Utwórz pokój",
+    "new_room": "Nowy pokój",
+    "room_name": "Nazwa pokoju",
+    "timezone": "Strefa czasowa",
+    "created_at": "Utworzono",
+    "create_room_submit": "Utwórz",
+    "saving": "Zapisywanie…",
+    "loading": "Ładowanie…"
   }
 }

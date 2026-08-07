@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { loginUser } from "../api/authApi";
-import type { LoginUserDto } from "../types/LoginUserDto";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { loginUser } from "../api/authApi";
+import type { LoginUserDto } from "../types/LoginUserDto";
 
 export default function LoginPage() {
   const { t } = useTranslation();
@@ -12,6 +12,7 @@ export default function LoginPage() {
     password: "",
     isPersistent: false,
   });
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -21,20 +22,20 @@ export default function LoginPage() {
     }));
   };
 
-  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
 
-    console.log("wysyłanie LoginDto: ", formData);
-    const response = await loginUser(formData);
-
-    if (response.ok) {
-      console.log("Zalogowano pomyślnie!", response);
-      navigate("/");
+    const result = await loginUser(formData);
+    if (result.succeeded) {
+      navigate("/rooms");
     } else {
-      const errorData = await response.json().catch(() => null);
-      console.log("Login error (400):", errorData || response.statusText);
+      setError(result.errors.join(" "));
     }
   };
+
+  const inputClass =
+    "w-full rounded-lg border border-slate-700 bg-slate-950/60 p-2.5 text-slate-100 placeholder-slate-500 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20";
 
   return (
     <div className="flex min-h-[calc(100vh-80px)] items-center justify-center p-4">
@@ -54,7 +55,7 @@ export default function LoginPage() {
               value={formData.email}
               onChange={handleChange}
               placeholder="twoj@email.com"
-              className="w-full rounded-lg border border-slate-700 bg-slate-950/60 p-2.5 text-slate-100 placeholder-slate-500 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              className={inputClass}
               required
             />
           </div>
@@ -69,7 +70,7 @@ export default function LoginPage() {
               value={formData.password}
               onChange={handleChange}
               placeholder="••••••••"
-              className="w-full rounded-lg border border-slate-700 bg-slate-950/60 p-2.5 text-slate-100 placeholder-slate-500 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              className={inputClass}
               required
             />
           </div>
@@ -85,11 +86,13 @@ export default function LoginPage() {
             />
             <label
               htmlFor="isPersistent"
-              className="text-sm font-medium text-slate-300 cursor-pointer select-none"
+              className="cursor-pointer select-none text-sm font-medium text-slate-300"
             >
               {t("auth.rememberMe")}
             </label>
           </div>
+
+          {error && <p className="text-sm text-red-400">{error}</p>}
 
           <button
             type="submit"

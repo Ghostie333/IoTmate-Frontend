@@ -1,41 +1,29 @@
+import { API_BASE_URL } from "../config";
 import type { LoginUserDto } from "../types/LoginUserDto";
-import { API_BASE_URL } from "../main"
-// const API_BASE_URL = 'http://localhost:7070/api'; // Backend address
+import type { RegisterUserDto } from "../types/RegisterUserDto";
 
-// Interfejs opisujący strukturę danych logowania/rejestracji
-export interface AuthRequest {
-  email: string;
-  password: string;
+export interface AuthResult {
+  succeeded: boolean;
+  errors: string[];
 }
 
-export const registerUser = async (credentials: AuthRequest): Promise<Response> => {
-  const response = await fetch(`${API_BASE_URL}/auth/register`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(credentials),
+/** POSTs JSON and returns the auth result without throwing (auth endpoints report failures via body). */
+async function postAuth(path: string, body: object): Promise<AuthResult> {
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify(body),
   });
 
-  return response;
-};
-
-export const loginUser = async (data: LoginUserDto): Promise<Response> => {
-  const response = await fetch(`${API_BASE_URL}/auth/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include', // Send .NET Identity cookies
-    body: JSON.stringify(data),
-  });
-
-  return response;
-};
-
-export const logoutUser = async (): Promise<Response> => {
-  const response = await fetch(`${API_BASE_URL}/auth/logout`, {
-    method: 'POST',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json'},
-  });
-
-  alert("wylogowano")
-  return response
+  const data = (await response.json().catch(() => null)) as AuthResult | null;
+  return data ?? { succeeded: response.ok, errors: [] };
 }
+
+export const loginUser = (data: LoginUserDto) => postAuth("/auth/login", data);
+
+export const registerUser = (data: RegisterUserDto) => postAuth("/auth/register", data);
+
+export const logoutUser = async (): Promise<void> => {
+  await fetch(`${API_BASE_URL}/auth/logout`, { method: "POST", credentials: "include" });
+};

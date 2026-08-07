@@ -1,19 +1,37 @@
 {
   "auth": {
-    "loginTitle": "Logowanie",
-    "registerTitle": "Rejestracja konta",
-    "userName": "Nazwa użytkownika",
+    "loginTitle": "Sign in",
+    "registerTitle": "Create account",
+    "userName": "Username",
     "email": "Email",
-    "password": "Hasło",
-    "confirmPassword": "Potwierdź hasło",
-    "rememberMe": "Zapamiętaj mnie",
-    "loginBtn": "Zaloguj się",
-    "registerBtn": "Zarejestruj się"
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "rememberMe": "Remember me",
+    "loginBtn": "Sign in",
+    "registerBtn": "Sign up",
+    "passwordMismatch": "Passwords do not match"
   },
   "nav": {
-    "home": "Strona Główna",
-    "login": "Logowanie",
-    "register": "Rejestracja",
-    "logout": "Wyloguj"
+    "home": "Home",
+    "rooms": "Rooms",
+    "login": "Sign in",
+    "register": "Sign up",
+    "logout": "Sign out"
+  },
+  "home": {
+    "title": "Home",
+    "welcome": "Welcome to the IoTmate system!"
+  },
+  "rooms": {
+    "your_rooms": "Your rooms",
+    "you_dont_have_rooms": "You don't have any rooms yet",
+    "create_room": "Create room",
+    "new_room": "New room",
+    "room_name": "Room name",
+    "timezone": "Time zone",
+    "created_at": "Created",
+    "create_room_submit": "Create",
+    "saving": "Saving…",
+    "loading": "Loading…"
   }
 }
