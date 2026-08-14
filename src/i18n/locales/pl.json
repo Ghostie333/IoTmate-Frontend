@@ -9,7 +9,8 @@
     "rememberMe": "Zapamiętaj mnie",
     "loginBtn": "Zaloguj się",
     "registerBtn": "Zarejestruj się",
-    "passwordMismatch": "Hasła nie są takie same"
+    "passwordMismatch": "Hasła nie są takie same",
+    "mustBeLoggedIn": "Musisz być zalogowany"
   },
   "nav": {
     "home": "Strona Główna",
@@ -32,6 +33,22 @@
     "created_at": "Utworzono",
     "create_room_submit": "Utwórz",
     "saving": "Zapisywanie…",
-    "loading": "Ładowanie…"
+    "loading": "Ładowanie…",
+    "no_room_with_id": "Nie ma takiego pokoju lub do niego nie należysz"
+  },
+  "errors": {
+    "unexpectedError": "Wystąpił niespodziewany błąd",
+    "device": {
+      "notFound": "Nie znaleziono urządzenia.",
+      "alreadyAssigned": "Urządzenie jest już przypisane do innego pokoju."
+    }
+  },
+  "devices": {
+    "noDevicesInRoom": "Brak urządzeń w pokoju",
+    "title": "Urządzenia",
+    "loading": "Pobieranie listy urządzeń…",
+    "addDevice": "Dodaj urządzenie",
+    "add": "Dodaj",
+    "adding": "Dodawanie…"
   }
 }

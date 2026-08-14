@@ -1,26 +1,23 @@
 import { useCallback, useEffect, useState } from "react";
 import { getUserRooms, type Room } from "../api/roomApi";
-import { ApiError } from "../api/http";
+import { toErrorMessage } from "../api/http";
+import { useTranslation } from "react-i18next";
 
-/**
- * Loads and owns the current user's rooms.
- * Centralizes room data access so a SignalR subscription can be added later
- * without changing the pages that consume it.
- */
 export function useRooms() {
+  const { t } = useTranslation();
   const [rooms, setRooms] = useState<Room[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  /** Re-fetches the list; leaves `loading` untouched so the UI does not flicker. */
+  // Refresh room list
   const refresh = useCallback(async () => {
     try {
       setRooms(await getUserRooms());
       setError(null);
     } catch (err) {
-      setError(toErrorMessage(err));
+      setError(toErrorMessage(err, t));
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     let ignore = false;
@@ -33,7 +30,7 @@ export function useRooms() {
         }
       })
       .catch((err) => {
-        if (!ignore) setError(toErrorMessage(err));
+        if (!ignore) setError(toErrorMessage(err, t));
       })
       .finally(() => {
         if (!ignore) setLoading(false);
@@ -42,14 +39,7 @@ export function useRooms() {
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [t]);
 
   return { rooms, loading, error, refresh };
-}
-
-function toErrorMessage(err: unknown): string {
-  if (err instanceof ApiError && err.status === 401)
-    return "You must be logged in to see your rooms.";
-  if (err instanceof Error) return err.message;
-  return "An unexpected error occurred.";
 }

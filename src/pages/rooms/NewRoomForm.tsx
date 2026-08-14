@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { createRoom } from "../../api/roomApi";
-import { ApiError } from "../../api/http";
+import { toErrorMessage } from "../../api/http";
 import type { CreateRoomDto } from "../../types/CreateRoomDto";
 
 interface NewRoomFormProps {
@@ -9,7 +9,10 @@ interface NewRoomFormProps {
   onClose: () => void;
 }
 
-export default function NewRoomForm({ onRoomCreated, onClose }: NewRoomFormProps) {
+export default function NewRoomForm({
+  onRoomCreated,
+  onClose,
+}: NewRoomFormProps) {
   const { t } = useTranslation();
   const [roomForm, setRoomForm] = useState<CreateRoomDto>({
     name: "",
@@ -23,7 +26,7 @@ export default function NewRoomForm({ onRoomCreated, onClose }: NewRoomFormProps
     setRoomForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
     setError(null);
@@ -34,8 +37,7 @@ export default function NewRoomForm({ onRoomCreated, onClose }: NewRoomFormProps
       onRoomCreated();
       onClose();
     } catch (err) {
-      if (err instanceof ApiError) setError(err.message);
-      else setError("Unexpected error while creating the room.");
+      setError(toErrorMessage(err, t));
     } finally {
       setSubmitting(false);
     }
@@ -48,7 +50,9 @@ export default function NewRoomForm({ onRoomCreated, onClose }: NewRoomFormProps
     <div className="max-w-3xl mx-auto rounded-t-2xl bg-blue-600">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-5">
         <div className="flex items-center justify-between">
-          <h2 className="font-bold text-xl text-white">{t("rooms.new_room")}</h2>
+          <h2 className="font-bold text-xl text-white">
+            {t("rooms.new_room")}
+          </h2>
           <button
             type="button"
             onClick={onClose}
