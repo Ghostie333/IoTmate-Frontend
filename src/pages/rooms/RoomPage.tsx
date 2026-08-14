@@ -9,24 +9,29 @@ export default function RoomPage() {
   const { t } = useTranslation();
   const { room, loading: roomLoading, error: roomError } = useRoom(roomId);
 
-  if (roomLoading) return <div>Loading room...</div>;
+  if (roomLoading)
+    return (
+      <div className="rounded-xl border border-slate-800 bg-slate-900 p-6 text-slate-400">
+        {t("rooms.loading")}
+      </div>
+    );
 
   if (roomError)
     return (
-      <div className="p-8 text-red-400">
+      <div className="rounded-xl border border-slate-800 bg-slate-900 p-6 text-red-400">
         <p className="mb-2">{roomError}</p>
-        <Link className="underline text-blue-400" to="/login">
+        <Link className="text-blue-400 underline" to="/login">
           {t("nav.login")}
         </Link>
       </div>
     );
 
   return (
-    <div className="p-8">
+    <div>
       {/* Header (room name and id) */}
-      <div className="flex flex-row justify-between text-3xl border p-3 items-center rounded">
-        <div className="font-bold">{room?.name}</div>
-        <div>{room?.id}</div>
+      <div className="mb-6 flex flex-row items-center justify-between rounded-xl border border-slate-800 bg-slate-900 px-6 py-4">
+        <div className="text-xl font-bold text-white">{room?.name}</div>
+        <div className="font-mono text-xs text-slate-500">{room?.id}</div>
       </div>
       {/* Dropdown devices list */}
       <RoomDevices roomId={roomId} />

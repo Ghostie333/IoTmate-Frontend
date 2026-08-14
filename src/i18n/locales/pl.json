@@ -48,13 +48,22 @@
     "title": "Urządzenia",
     "loading": "Pobieranie listy urządzeń…",
     "addDevice": "Dodaj urządzenie",
+    "deviceId": "ID urządzenia",
+    "name": "Nazwa urządzenia",
     "add": "Dodaj",
     "adding": "Dodawanie…",
+    "save": "Zapisz",
+    "saving": "Zapisywanie…",
     "typePowerStrip": "Listwa zasilająca",
     "typeSensor": "Czujnik",
     "edit": "Edytuj",
     "delete": "Usuń",
     "online": "Online",
-    "offline": "Offline"
+    "offline": "Offline",
+    "columnId": "ID urządzenia",
+    "columnName": "Nazwa urządzenia",
+    "columnType": "Typ urządzenia",
+    "columnStatus": "Status",
+    "columnActions": "Akcje"
   }
 }

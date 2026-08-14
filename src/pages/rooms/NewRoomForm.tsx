@@ -44,26 +44,25 @@ export default function NewRoomForm({
   };
 
   const inputClass =
-    "w-full rounded-md border border-slate-600 bg-slate-800 p-3 text-slate-100 placeholder-slate-500 focus:border-blue-500 focus:outline-none";
+    "w-full rounded-lg border border-slate-700 bg-slate-950/60 p-2.5 text-slate-100 placeholder-slate-500 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20";
 
   return (
-    <div className="max-w-3xl mx-auto rounded-t-2xl bg-blue-600">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-5">
+    <div className="rounded-xl border border-slate-800 bg-slate-900 shadow-xl">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-6">
         <div className="flex items-center justify-between">
-          <h2 className="font-bold text-xl text-white">
-            {t("rooms.new_room")}
-          </h2>
+          <h2 className="text-xl font-bold text-white">{t("rooms.new_room")}</h2>
           <button
             type="button"
             onClick={onClose}
-            className="rounded bg-blue-700 px-3 py-1 text-white hover:bg-blue-500"
+            className="rounded-md px-2.5 py-1 text-slate-400 transition hover:bg-slate-800 hover:text-white"
+            aria-label="Close"
           >
             &times;
           </button>
         </div>
 
         <div className="flex flex-col gap-2">
-          <label htmlFor="name" className="font-bold text-white">
+          <label htmlFor="name" className="text-sm font-medium text-slate-300">
             {t("rooms.room_name")}
           </label>
           <input
@@ -78,7 +77,10 @@ export default function NewRoomForm({
         </div>
 
         <div className="flex flex-col gap-2">
-          <label htmlFor="timeZoneId" className="font-bold text-white">
+          <label
+            htmlFor="timeZoneId"
+            className="text-sm font-medium text-slate-300"
+          >
             {t("rooms.timezone")}
           </label>
           <input
@@ -92,12 +94,12 @@ export default function NewRoomForm({
           />
         </div>
 
-        {error && <p className="text-red-200">{error}</p>}
+        <p className="text-sm text-red-400">{error ? error : "\u00A0"}</p>
 
         <button
           type="submit"
           disabled={submitting}
-          className="rounded-md bg-blue-800 px-4 py-2 font-semibold text-white transition hover:bg-blue-500 active:scale-[0.98] disabled:opacity-50"
+          className="rounded-lg bg-blue-600 px-4 py-2.5 font-semibold text-white transition hover:bg-blue-500 active:scale-[0.98] disabled:opacity-50"
         >
           {submitting ? t("rooms.saving") : t("rooms.create_room_submit")}
         </button>

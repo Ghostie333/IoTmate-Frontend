@@ -39,6 +39,30 @@
     "created_at": "Created",
     "create_room_submit": "Create",
     "saving": "Saving…",
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "no_room_with_id": "Room not found or you don't have access to it"
+  },
+  "devices": {
+    "noDevicesInRoom": "No devices in this room",
+    "title": "Devices",
+    "loading": "Loading devices…",
+    "addDevice": "Add device",
+    "deviceId": "Device ID",
+    "name": "Device name",
+    "add": "Add",
+    "adding": "Adding…",
+    "save": "Save",
+    "saving": "Saving…",
+    "typePowerStrip": "Power strip",
+    "typeSensor": "Sensor",
+    "edit": "Edit",
+    "delete": "Delete",
+    "online": "Online",
+    "offline": "Offline",
+    "columnId": "Device ID",
+    "columnName": "Device name",
+    "columnType": "Device type",
+    "columnStatus": "Status",
+    "columnActions": "Actions"
   }
 }
