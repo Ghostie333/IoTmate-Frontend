@@ -43,7 +43,7 @@ export default function AddDeviceToRoomForm({
 
   return (
     <div
-      className="max-w-3xl mx-auto rounded-t-2xl bg-blue-600"
+      className="w-xl rounded-2xl border bg-slate-800"
       onClick={(e) => e.stopPropagation()}
     >
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-5">

@@ -49,6 +49,12 @@
     "loading": "Pobieranie listy urządzeń…",
     "addDevice": "Dodaj urządzenie",
     "add": "Dodaj",
-    "adding": "Dodawanie…"
+    "adding": "Dodawanie…",
+    "typePowerStrip": "Listwa zasilająca",
+    "typeSensor": "Czujnik",
+    "edit": "Edytuj",
+    "delete": "Usuń",
+    "online": "Online",
+    "offline": "Offline"
   }
 }
