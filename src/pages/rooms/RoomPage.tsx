@@ -28,7 +28,7 @@ export default function RoomPage() {
     );
 
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       {/* Header (room name and id) */}
       <div className="mb-6 flex flex-row items-center justify-between rounded-xl border border-slate-800 bg-slate-900 px-6 py-4">
         <div className="text-xl font-bold text-white">{room?.name}</div>

@@ -1,4 +1,5 @@
 import type { RuleAction, RuleOperation } from "../../api/ruleApi";
+import type { DaysOfWeek } from "../../utils/daysOfWeek";
 
 export interface UpdateRuleDto {
   id: string;
@@ -13,5 +14,5 @@ export interface UpdateRuleDto {
   sensorRuleValue?: number | null;
   timeHour?: number | null;
   timeMinute?: number | null;
-  daysOfWeek?: boolean[] | null;
+  daysOfWeek: DaysOfWeek;
 }

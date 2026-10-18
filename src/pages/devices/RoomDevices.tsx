@@ -1,13 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { useRoomDevices } from "../../hooks/useRoomDevices";
 import { useState } from "react";
-import AddDeviceToRoomForm from "../rooms/AddDeviceToRoomForm";
+import AddDeviceToRoomForm from "./AddDeviceToRoomForm";
 import {
   deleteDeviceFromRoom,
   DeviceTypeKey,
   type RoomDevice,
 } from "../../api/deviceApi";
-import UpdateDeviceForm from "../rooms/UpdateDeviceForm";
+import UpdateDeviceForm from "./UpdateDeviceForm";
 import Modal from "../../components/Modal";
 
 export function RoomDevices({ roomId }: { roomId: string | undefined }) {

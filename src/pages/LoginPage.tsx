@@ -15,6 +15,7 @@ export default function LoginPage() {
     isPersistent: false,
   });
   const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -26,14 +27,21 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSubmitting(true);
     setError(null);
 
-    const result = await loginUser(formData);
-    if (result.succeeded) {
-      await refresh();
-      navigate("/rooms");
-    } else {
-      setError(result.errors.join(" "));
+    try {
+      const result = await loginUser(formData);
+      if (result.succeeded) {
+        await refresh();
+        navigate("/rooms");
+      } else {
+        setError(result.errors.join(" "));
+      }
+    } catch {
+      setError(t("errors.unexpectedError"));
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -99,7 +107,8 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="mt-2 w-full rounded-lg bg-blue-600 py-2.5 font-semibold text-white shadow-md transition hover:bg-blue-500 active:scale-[0.98]"
+            disabled={submitting}
+            className="mt-2 w-full rounded-lg bg-blue-600 py-2.5 font-semibold text-white shadow-md transition hover:bg-blue-500 active:scale-[0.98] disabled:opacity-50"
           >
             {t("auth.loginBtn")}
           </button>

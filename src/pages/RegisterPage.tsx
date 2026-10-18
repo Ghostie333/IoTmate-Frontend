@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { registerUser } from "../api/authApi";
+import { useAuth } from "../hooks/useAuth";
 import type { RegisterUserDto } from "../types/RegisterUserDto";
 
 export default function RegisterPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { refresh } = useAuth();
   const [formData, setFormData] = useState<RegisterUserDto>({
     userName: "",
     email: "",
@@ -14,6 +16,7 @@ export default function RegisterPage() {
     confirmPassword: "",
   });
   const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -29,11 +32,20 @@ export default function RegisterPage() {
       return;
     }
 
-    const result = await registerUser(formData);
-    if (result.succeeded) {
-      navigate("/login");
-    } else {
-      setError(result.errors.join(" "));
+    setSubmitting(true);
+
+    try {
+      const result = await registerUser(formData);
+      if (result.succeeded) {
+        await refresh();
+        navigate("/rooms");
+      } else {
+        setError(result.errors.join(" "));
+      }
+    } catch {
+      setError(t("errors.unexpectedError"));
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -109,7 +121,8 @@ export default function RegisterPage() {
 
           <button
             type="submit"
-            className="mt-2 w-full rounded-lg bg-blue-600 py-2.5 font-semibold text-white shadow-md transition hover:bg-blue-500 active:scale-[0.98]"
+            disabled={submitting}
+            className="mt-2 w-full rounded-lg bg-blue-600 py-2.5 font-semibold text-white shadow-md transition hover:bg-blue-500 active:scale-[0.98] disabled:opacity-50"
           >
             {t("auth.registerBtn")}
           </button>

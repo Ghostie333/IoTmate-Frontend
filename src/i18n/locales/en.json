@@ -9,7 +9,8 @@
     "rememberMe": "Remember me",
     "loginBtn": "Sign in",
     "registerBtn": "Sign up",
-    "passwordMismatch": "Passwords do not match"
+    "passwordMismatch": "Passwords do not match",
+    "mustBeLoggedIn": "You must be logged in"
   },
   "nav": {
     "home": "Home",
@@ -24,6 +25,7 @@
   },
   "errors": {
     "unexpectedError": "Unexpected error occurred",
+    "pageNotFound": "Page not found",
     "device": {
       "notFound": "Device not found.",
       "alreadyAssigned": "Device is already assigned to another room."

@@ -10,6 +10,14 @@ import { toErrorMessage } from "../../api/http";
 import { useTranslation } from "react-i18next";
 import { useRoomDevices } from "../../hooks/useRoomDevices";
 import type { UpdateRuleDto } from "../../types/rules/UpdateRuleDto";
+import {
+  DAY_INDEXES,
+  DAY_LABEL_KEYS,
+  fromApiDaysOfWeek,
+  hasSelectedDay,
+  setDay,
+  type DayIndex,
+} from "../../utils/daysOfWeek";
 
 interface UpdateRuleFormProps {
   roomId: string;
@@ -17,16 +25,6 @@ interface UpdateRuleFormProps {
   onUpdated: () => void;
   onClose: () => void;
 }
-
-const DAYS_OF_WEEK_LABELS = [
-  "rules.monday",
-  "rules.tuesday",
-  "rules.wednesday",
-  "rules.thursday",
-  "rules.friday",
-  "rules.saturday",
-  "rules.sunday",
-];
 
 export function UpdateRuleForm({
   roomId,
@@ -52,15 +50,7 @@ export function UpdateRuleForm({
     sensorRuleValue: rule.sensorRuleValue ?? null,
     timeHour: rule.timeHour ?? null,
     timeMinute: rule.timeMinute ?? null,
-    daysOfWeek: rule.daysOfWeek ?? [
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-    ],
+    daysOfWeek: fromApiDaysOfWeek(rule.daysOfWeek),
   });
 
   const handleChange = (
@@ -91,18 +81,21 @@ export function UpdateRuleForm({
     }
   };
 
-  const handleDayChange = (index: number, checked: boolean) => {
-    setForm((prev) => {
-      const currentDays = prev.daysOfWeek
-        ? [...prev.daysOfWeek]
-        : [false, false, false, false, false, false, false];
-      currentDays[index] = checked;
-      return { ...prev, daysOfWeek: currentDays };
-    });
+  const handleDayChange = (index: DayIndex, checked: boolean) => {
+    setForm((prev) => ({
+      ...prev,
+      daysOfWeek: setDay(prev.daysOfWeek, index, checked),
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (rule.ruleType === RuleType.Time && !hasSelectedDay(form.daysOfWeek)) {
+      setError(t("rules.selectAtLeastOneDay"));
+      return;
+    }
+
     setSubmitting(true);
     setError(null);
 
@@ -137,7 +130,6 @@ export function UpdateRuleForm({
           </button>
         </div>
 
-        {/* Name */}
         <div className="flex flex-col gap-2">
           <label htmlFor="name" className="text-sm font-medium text-slate-300">
             {t("rules.columnName")}
@@ -153,7 +145,6 @@ export function UpdateRuleForm({
           />
         </div>
 
-        {/* Is Enabled */}
         <div className="flex items-center gap-2">
           <input
             type="checkbox"
@@ -171,7 +162,6 @@ export function UpdateRuleForm({
           </label>
         </div>
 
-        {/* Time rules fields */}
         {rule.ruleType === RuleType.Time && (
           <>
             <div className="grid grid-cols-2 gap-4">
@@ -213,24 +203,23 @@ export function UpdateRuleForm({
               </div>
             </div>
 
-            {/* Days of week */}
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-slate-300">
                 {t("rules.daysOfWeek")}
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-950/40 p-3 rounded-lg border border-slate-800">
-                {DAYS_OF_WEEK_LABELS.map((dayKey, idx) => (
+                {DAY_INDEXES.map((idx) => (
                   <label
-                    key={dayKey}
+                    key={DAY_LABEL_KEYS[idx]}
                     className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer"
                   >
                     <input
                       type="checkbox"
-                      checked={form.daysOfWeek?.[idx] ?? false}
+                      checked={form.daysOfWeek[idx]}
                       onChange={(e) => handleDayChange(idx, e.target.checked)}
                       className="h-3.5 w-3.5 rounded border-slate-700 bg-slate-950 text-blue-600 focus:ring-blue-500"
                     />
-                    {t(dayKey)}
+                    {t(DAY_LABEL_KEYS[idx])}
                   </label>
                 ))}
               </div>
@@ -238,7 +227,6 @@ export function UpdateRuleForm({
           </>
         )}
 
-        {/* Reading rules fields */}
         {rule.ruleType === RuleType.Reading && (
           <>
             <div className="flex flex-col gap-2">
@@ -327,7 +315,6 @@ export function UpdateRuleForm({
           </>
         )}
 
-        {/* Target and action */}
         <div className="flex flex-col gap-2">
           <label
             htmlFor="targetDeviceId"
@@ -369,7 +356,6 @@ export function UpdateRuleForm({
           />
         </div>
 
-        {/* Action */}
         <div className="flex flex-col gap-2">
           <label
             htmlFor="action"
@@ -392,10 +378,8 @@ export function UpdateRuleForm({
           </select>
         </div>
 
-        {/* Error field */}
         <p className="text-sm text-red-400">{error ? error : "\u00A0"}</p>
 
-        {/* Submit button */}
         <button
           type="submit"
           disabled={submitting}

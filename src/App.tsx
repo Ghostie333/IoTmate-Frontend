@@ -1,7 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import { GuestOnly, RequireAuth } from "./components/RouteGuards";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import RegisterPage from "./pages/RegisterPage";
 import RoomsPage from "./pages/rooms/RoomsPage";
 import RoomPage from "./pages/rooms/RoomPage";
@@ -17,11 +19,40 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               {/* User login/register */}
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
+              <Route
+                path="/login"
+                element={
+                  <GuestOnly>
+                    <LoginPage />
+                  </GuestOnly>
+                }
+              />
+              <Route
+                path="/register"
+                element={
+                  <GuestOnly>
+                    <RegisterPage />
+                  </GuestOnly>
+                }
+              />
               {/* Rooms */}
-              <Route path="/rooms" element={<RoomsPage />} />
-              <Route path="/rooms/:roomId" element={<RoomPage />} />
+              <Route
+                path="/rooms"
+                element={
+                  <RequireAuth>
+                    <RoomsPage />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/rooms/:roomId"
+                element={
+                  <RequireAuth>
+                    <RoomPage />
+                  </RequireAuth>
+                }
+              />
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </main>
         </AuthProvider>
