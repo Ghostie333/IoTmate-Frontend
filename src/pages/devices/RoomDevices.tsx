@@ -92,7 +92,9 @@ export function RoomDevices({ roomId }: { roomId: string | undefined }) {
       {open && (
         <div>
           {loading ? (
-            <div className="p-6 text-sm text-slate-500">{t("devices.loading")}</div>
+            <div className="p-6 text-sm text-slate-500">
+              {t("devices.loading")}
+            </div>
           ) : error ? (
             <div className="p-6 text-sm text-red-400">{error}</div>
           ) : devices?.length === 0 ? (

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useRoom } from "../../hooks/useRoom";
 import { RoomDevices } from "../devices/RoomDevices";
+import { RoomRules } from "../rules/RoomRules";
 
 export default function RoomPage() {
   const { roomId } = useParams();
@@ -33,8 +34,12 @@ export default function RoomPage() {
         <div className="text-xl font-bold text-white">{room?.name}</div>
         <div className="font-mono text-xs text-slate-500">{room?.id}</div>
       </div>
+
       {/* Dropdown devices list */}
       <RoomDevices roomId={roomId} />
+
+      {/* Dropdown rules list */}
+      <RoomRules roomId={roomId} />
     </div>
   );
 }

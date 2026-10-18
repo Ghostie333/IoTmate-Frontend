@@ -65,5 +65,23 @@
     "columnType": "Typ urządzenia",
     "columnStatus": "Status",
     "columnActions": "Akcje"
+  },
+  "rules": {
+    "title": "Reguły",
+    "typeReading": "Odczyt",
+    "typeTime": "Czasowe",
+    "actionTurnOn": "Włącz",
+    "actionTurnOff": "Wyłącz",
+    "noRulesInRoom": "Brak reguł",
+    "addRule": "Dodaj regułę",
+    "columnId": "ID reguły",
+    "columnName": "Nazwa reguły",
+    "columnStatus": "Status",
+    "columnActions": "Akcje",
+    "enabled": "Włączona",
+    "disabled": "Wyłączona",
+    "edit": "Edytuj",
+    "delete": "Usuń",
+    "columnType": "Typ reguły"
   }
 }
