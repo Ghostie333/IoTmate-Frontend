@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
-import { getUserRooms, type Room } from "../api/roomApi";
+import { getUserRooms } from "../api/roomApi";
+import type { RoomDto } from "../types/rooms/RoomDto";
 import { toErrorMessage } from "../api/http";
 import { useTranslation } from "react-i18next";
 
 export function useRooms() {
   const { t } = useTranslation();
-  const [rooms, setRooms] = useState<Room[]>([]);
+  const [rooms, setRooms] = useState<RoomDto[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

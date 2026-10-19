@@ -2,7 +2,8 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useRoomRules } from "../../hooks/useRoomRules";
 import Modal from "../../components/Modal";
-import { deleteRule, RuleTypeKey, type RoomRule } from "../../api/ruleApi";
+import { deleteRule } from "../../api/ruleApi";
+import { RuleTypeKey, type RuleDto } from "../../types/rules/RuleDto";
 import { CreateRuleForm } from "./CreateRuleForm";
 import { UpdateRuleForm } from "./UpdateRuleForm";
 
@@ -11,12 +12,12 @@ export function RoomRules({ roomId }: { roomId: string | undefined }) {
   const { rules, loading, error, refresh } = useRoomRules(roomId);
   const [open, setOpen] = useState(false);
   const [addRuleFormOpen, setAddRuleFormOpen] = useState(false);
-  const [editingRule, setEditingRule] = useState<RoomRule | null>(null);
+  const [editingRule, setEditingRule] = useState<RuleDto | null>(null);
 
   if (!roomId) return null;
 
   // Delete rule from room
-  const handleDeleteRule = async (rule: RoomRule) => {
+  const handleDeleteRule = async (rule: RuleDto) => {
     await deleteRule(roomId, rule.id);
     refresh();
   };

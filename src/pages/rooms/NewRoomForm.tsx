@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { createRoom } from "../../api/roomApi";
 import { toErrorMessage } from "../../api/http";
-import type { CreateRoomDto } from "../../types/CreateRoomDto";
+import type { CreateRoomDto } from "../../types/rooms/CreateRoomDto";
 
 interface NewRoomFormProps {
   onRoomCreated: () => void;
@@ -50,7 +50,9 @@ export default function NewRoomForm({
     <div className="rounded-xl border border-slate-800 bg-slate-900 shadow-xl">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-white">{t("rooms.new_room")}</h2>
+          <h2 className="text-xl font-bold text-white">
+            {t("rooms.new_room")}
+          </h2>
           <button
             type="button"
             onClick={onClose}

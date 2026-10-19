@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { updateDevice, type RoomDevice } from "../../api/deviceApi";
+import { updateDevice } from "../../api/deviceApi";
+import type { RoomDevice } from "../../types/devices/DeviceDto";
 import { toErrorMessage } from "../../api/http";
 import { useTranslation } from "react-i18next";
-import type { UpdateDeviceDto } from "../../types/UpdateDeviceDto";
+import type { UpdateDeviceDto } from "../../types/devices/UpdateDeviceDto";
 
 interface UpdateDeviceFormProps {
   device: RoomDevice;

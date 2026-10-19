@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { registerUser } from "../api/authApi";
 import { useAuth } from "../hooks/useAuth";
-import type { RegisterUserDto } from "../types/RegisterUserDto";
+import type { RegisterUserDto } from "../types/users/RegisterUserDto";
 
 export default function RegisterPage() {
   const { t } = useTranslation();

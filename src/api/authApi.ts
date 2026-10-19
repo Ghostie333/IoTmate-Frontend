@@ -1,6 +1,6 @@
 import { API_BASE_URL } from "../config";
-import type { LoginUserDto } from "../types/LoginUserDto";
-import type { RegisterUserDto } from "../types/RegisterUserDto";
+import type { LoginUserDto } from "../types/users/LoginUserDto";
+import type { RegisterUserDto } from "../types/users/RegisterUserDto";
 import { http } from "./http";
 
 export interface AuthResult {
@@ -15,7 +15,7 @@ export interface CurrentUser {
 }
 
 async function postAuth(path: string, body: object): Promise<AuthResult> {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+  const response = await fetch(`${API_BASE_URL}/api/${path}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -53,15 +53,16 @@ function normalizeErrors(errors: unknown, response: Response): string[] {
   return [];
 }
 
-export const loginUser = (data: LoginUserDto) => postAuth("/auth/login", data);
+export const loginUser = (data: LoginUserDto) =>
+  postAuth("auth/login", data);
 
 export const registerUser = (data: RegisterUserDto) =>
-  postAuth("/auth/register", data);
+  postAuth("auth/register", data);
 
 export const getCurrentUser = () => http<CurrentUser>("/auth/me");
 
 export const logoutUser = async (): Promise<void> => {
-  await fetch(`${API_BASE_URL}/auth/logout`, {
+  await fetch(`${API_BASE_URL}/api/auth/logout`, {
     method: "POST",
     credentials: "include",
   });

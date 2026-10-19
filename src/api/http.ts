@@ -34,7 +34,7 @@ export async function http<T>(
   const headers = new Headers(init.headers);
   if (hasBody) headers.set("Content-Type", "application/json");
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+  const response = await fetch(`${API_BASE_URL}/api${path}`, {
     ...init,
     headers,
     credentials: "include",

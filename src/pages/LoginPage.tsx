@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { loginUser } from "../api/authApi";
 import { useAuth } from "../hooks/useAuth";
-import type { LoginUserDto } from "../types/LoginUserDto";
+import type { LoginUserDto } from "../types/users/LoginUserDto";
 
 export default function LoginPage() {
   const { t } = useTranslation();

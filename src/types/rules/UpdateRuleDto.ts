@@ -1,4 +1,4 @@
-import type { RuleAction, RuleOperation } from "../../api/ruleApi";
+import type { RuleAction, RuleOperation } from "./RuleDto";
 import type { DaysOfWeek } from "../../utils/daysOfWeek";
 
 export interface UpdateRuleDto {

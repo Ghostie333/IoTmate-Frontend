@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { createRule, RuleType } from "../../api/ruleApi";
+import { createRule } from "../../api/ruleApi";
+import { RuleType } from "../../types/rules/RuleDto";
 import { toErrorMessage } from "../../api/http";
 import { useTranslation } from "react-i18next";
 import type { CreateRuleDto } from "../../types/rules/CreateRuleDto";

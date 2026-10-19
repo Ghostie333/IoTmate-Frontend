@@ -1,11 +1,11 @@
 import { useState } from "react";
+import { updateRule } from "../../api/ruleApi";
 import {
-  updateRule,
-  RuleType,
   RuleAction,
   RuleOperation,
-  type RoomRule,
-} from "../../api/ruleApi";
+  RuleType,
+  type RuleDto,
+} from "../../types/rules/RuleDto";
 import { toErrorMessage } from "../../api/http";
 import { useTranslation } from "react-i18next";
 import { useRoomDevices } from "../../hooks/useRoomDevices";
@@ -21,7 +21,7 @@ import {
 
 interface UpdateRuleFormProps {
   roomId: string;
-  rule: RoomRule;
+  rule: RuleDto;
   onUpdated: () => void;
   onClose: () => void;
 }

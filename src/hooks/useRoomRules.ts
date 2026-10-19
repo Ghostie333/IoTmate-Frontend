@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 import { toErrorMessage } from "../api/http";
 import { useTranslation } from "react-i18next";
-import { getRoomRules, type RoomRule } from "../api/ruleApi";
+import { getRoomRules } from "../api/ruleApi";
+import type { RuleDto } from "../types/rules/RuleDto";
 
 export function useRoomRules(roomId: string | undefined) {
   const { t } = useTranslation();
-  const [rules, setRules] = useState<RoomRule[]>();
+  const [rules, setRules] = useState<RuleDto[]>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

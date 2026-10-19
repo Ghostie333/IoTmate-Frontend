@@ -1,27 +1,6 @@
-import type { UpdateDeviceDto } from "../types/UpdateDeviceDto";
+import type { RoomDevice } from "../types/devices/DeviceDto";
+import type { UpdateDeviceDto } from "../types/devices/UpdateDeviceDto";
 import { http } from "./http";
-
-// Device type
-export const DeviceType = {
-  PowerStrip: 1,
-  Sensor: 2,
-} as const;
-export type DeviceType = (typeof DeviceType)[keyof typeof DeviceType];
-
-// Device type for display
-export const DeviceTypeKey: Record<DeviceType, string> = {
-  [DeviceType.PowerStrip]: "devices.typePowerStrip",
-  [DeviceType.Sensor]: "devices.typeSensor",
-};
-
-// Room device
-export interface RoomDevice {
-  deviceId: string;
-  name: string;
-  deviceType: DeviceType;
-  isOnline: boolean;
-  lastSeenAt: Date;
-}
 
 export const getRoomDevices = (roomId: string) =>
   http<RoomDevice[]>(`/rooms/${roomId}/devices`);

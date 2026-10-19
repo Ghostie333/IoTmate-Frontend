@@ -1,4 +1,4 @@
-import type { RuleType } from "../../api/ruleApi";
+import type { RuleType } from "./RuleDto";
 
 export interface CreateRuleDto {
   name: string;

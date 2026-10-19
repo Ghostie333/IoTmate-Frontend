@@ -1,34 +1,14 @@
 import { http } from "./http";
-import type { CreateRoomDto } from "../types/CreateRoomDto";
+import type { CreateRoomDto } from "../types/rooms/CreateRoomDto";
+import type { RoomDto, RoomMemberDto } from "../types/rooms/RoomDto";
 
-// Room
-export interface Room {
-  id: string;
-  name: string;
-  timeZoneId: string;
-  createdAt: string;
-}
+export const getUserRooms = () => http<RoomDto[]>("/rooms");
 
-// Room role
-export const RoomRole = {
-  Owner: 1,
-  Member: 2,
-} as const;
-export type RoomRole = (typeof RoomRole)[keyof typeof RoomRole];
-
-// Room member
-export interface RoomMember {
-  userId: string;
-  username: string;
-  role: RoomRole;
-}
-
-export const getUserRooms = () => http<Room[]>("/rooms");
-
-export const getRoomById = (roomId: string) => http<Room>(`/rooms/${roomId}`);
+export const getRoomById = (roomId: string) =>
+  http<RoomDto>(`/rooms/${roomId}`);
 
 export const createRoom = (input: CreateRoomDto) =>
-  http<Room>("/rooms/new", { method: "POST", body: JSON.stringify(input) });
+  http<RoomDto>("/rooms/new", { method: "POST", body: JSON.stringify(input) });
 
 export const updateRoom = (roomId: string, input: CreateRoomDto) =>
   http<void>(`/rooms/${roomId}`, {
@@ -40,6 +20,4 @@ export const deleteRoom = (roomId: string) =>
   http<void>(`/rooms/${roomId}`, { method: "DELETE" });
 
 export const getRoomMembers = (roomId: string) =>
-  http<RoomMember[]>(`/rooms/${roomId}/members`);
-
-
+  http<RoomMemberDto[]>(`/rooms/${roomId}/members`);

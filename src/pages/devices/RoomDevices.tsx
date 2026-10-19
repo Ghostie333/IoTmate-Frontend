@@ -2,13 +2,69 @@ import { useTranslation } from "react-i18next";
 import { useRoomDevices } from "../../hooks/useRoomDevices";
 import { useState } from "react";
 import AddDeviceToRoomForm from "./AddDeviceToRoomForm";
+import { deleteDeviceFromRoom } from "../../api/deviceApi";
 import {
-  deleteDeviceFromRoom,
+  DeviceType,
   DeviceTypeKey,
+  ReadingLabelKey,
+  ReadingUnit,
   type RoomDevice,
-} from "../../api/deviceApi";
+} from "../../types/devices/DeviceDto";
 import UpdateDeviceForm from "./UpdateDeviceForm";
 import Modal from "../../components/Modal";
+
+function DeviceReadings({ device }: { device: RoomDevice }) {
+  const { t } = useTranslation();
+
+  if (device.deviceType === DeviceType.PowerStrip) {
+    if (!device.outletsState?.length) {
+      return <span className="text-slate-600">{t("devices.noReading")}</span>;
+    }
+
+    return (
+      <div className="flex flex-wrap gap-1.5">
+        {device.outletsState.map((isOn, index) => (
+          <span
+            key={index}
+            title={isOn ? t("devices.outletOn") : t("devices.outletOff")}
+            className={`inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold ${
+              isOn
+                ? "bg-emerald-950 text-emerald-400"
+                : "bg-slate-800 text-slate-500"
+            }`}
+          >
+            {index + 1}
+          </span>
+        ))}
+      </div>
+    );
+  }
+
+  const readings = Object.entries(device.lastReading ?? {});
+
+  if (readings.length === 0) {
+    return <span className="text-slate-600">{t("devices.noReading")}</span>;
+  }
+
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {readings.map(([field, value]) => (
+        <span
+          key={field}
+          className="inline-flex items-center gap-1.5 rounded-full bg-slate-800 px-2.5 py-1 text-xs font-medium"
+        >
+          <span className="text-slate-400">
+            {t(ReadingLabelKey[field] ?? field)}
+          </span>
+          <span className="font-semibold text-slate-100">
+            {Number(value.toFixed(1))}
+            {ReadingUnit[field] ?? ""}
+          </span>
+        </span>
+      ))}
+    </div>
+  );
+}
 
 export function RoomDevices({ roomId }: { roomId: string | undefined }) {
   const { t } = useTranslation();
@@ -116,6 +172,9 @@ export function RoomDevices({ roomId }: { roomId: string | undefined }) {
                       {t("devices.columnType")}
                     </th>
                     <th className="px-6 py-3 font-semibold text-slate-400">
+                      {t("devices.columnReading")}
+                    </th>
+                    <th className="px-6 py-3 font-semibold text-slate-400">
                       {t("devices.columnStatus")}
                     </th>
                     <th className="px-6 py-3 text-right font-semibold text-slate-400">
@@ -140,6 +199,10 @@ export function RoomDevices({ roomId }: { roomId: string | undefined }) {
 
                       <td className="whitespace-nowrap px-6 py-4 text-slate-400">
                         {t(DeviceTypeKey[d.deviceType])}
+                      </td>
+
+                      <td className="px-6 py-4">
+                        <DeviceReadings device={d} />
                       </td>
 
                       <td className="whitespace-nowrap px-6 py-4">
